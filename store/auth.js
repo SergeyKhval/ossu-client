@@ -6,10 +6,18 @@ export const state = () => ({
   user: null,
 })
 
+export const getters = {
+  isAuthorized(state) {
+    return state.user && state.user.uid
+  },
+}
+
 export const mutations = {
   setUser(state, user) {
-    console.log('mutating user')
-    state.user = user
+    if (user && user.providerData)
+      state.user = user.providerData[0]
+    else
+      state.user = null
   },
 }
 

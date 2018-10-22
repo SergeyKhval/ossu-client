@@ -1,12 +1,60 @@
 <template>
-  <v-app dark>
+  <v-app>
     <v-toolbar
       fixed
       app
     >
-      <v-btn @click="signIn">sign in</v-btn>
-      <v-btn @click="signOut">sign out</v-btn>
+      <v-toolbar-title>OSSU</v-toolbar-title>
+      <v-toolbar-items class="hidden-sm-and-down">
+        <v-btn
+          to="/"
+          flat
+        >
+          Home
+        </v-btn>
+
+        <v-btn
+          flat
+          to="/curriculum"
+        >
+          Curriculum
+        </v-btn>
+
+        <v-btn
+          flat
+          to="/account"
+        >
+          My progress
+        </v-btn>
+      </v-toolbar-items>
+
+      <v-spacer />
+
+      <v-toolbar-items>
+        <v-btn
+          flat
+          to="/about"
+        >
+          about
+        </v-btn>
+        <v-btn
+          v-if="!isAuthorized"
+          flat
+          @click="signIn"
+        >
+          log in with github
+        </v-btn>
+
+        <v-btn
+          v-else
+          flat
+          @click="signOut"
+        >
+          sign out
+        </v-btn>
+      </v-toolbar-items>
     </v-toolbar>
+
     <v-content>
       <v-container>
         <nuxt />
@@ -22,16 +70,14 @@
 </template>
 
 <script>
-  import { mapActions, mapMutations } from 'vuex'
+  import { mapActions, mapMutations, mapGetters } from 'vuex'
 
   export default {
+    computed: {
+      ...mapGetters('auth', ['isAuthorized']),
+    },
     mounted() {
-      // this.$firebaseApp.auth().onAuthStateChanged((user) => {
-      //   if (user)
-      //     this.$store.commit('auth/setUser', user)
-      //   else
-      //     this.$store.commit('auth/setUser', null)
-      // })
+      this.$firebaseApp.auth().onAuthStateChanged(this.setUser)
     },
     methods: {
       ...mapMutations('auth', ['setUser']),
