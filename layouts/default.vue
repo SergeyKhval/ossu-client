@@ -21,6 +21,7 @@
         </v-btn>
 
         <v-btn
+          v-if="isAuthorized"
           flat
           to="/account"
         >

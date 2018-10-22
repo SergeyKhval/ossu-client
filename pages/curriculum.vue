@@ -11,6 +11,7 @@
   import { mapActions, mapGetters } from 'vuex'
 
   export default {
+    transition: 'page-static',
     computed: {
       ...mapGetters('courses', ['coursesList']),
       ...mapGetters('courseCategories', ['categoriesList']),

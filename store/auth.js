@@ -14,10 +14,14 @@ export const getters = {
 
 export const mutations = {
   setUser(state, user) {
-    if (user && user.providerData)
+    if (user && user.providerData) {
       state.user = user.providerData[0]
-    else
+      this.$router.push('/account')
+    }
+    else {
       state.user = null
+      this.$router.push('/')
+    }
   },
 }
 

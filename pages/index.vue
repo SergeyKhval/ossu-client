@@ -26,3 +26,8 @@
   </v-layout>
 </template>
 
+<script>
+  export default {
+    transition: 'page-static',
+  }
+</script>

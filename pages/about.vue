@@ -308,3 +308,9 @@
     </ul>
   </div>
 </template>
+
+<script>
+  export default {
+    transition: 'page-static',
+  }
+</script>
