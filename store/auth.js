@@ -16,7 +16,6 @@ export const mutations = {
   setUser(state, user) {
     if (user && user.providerData) {
       state.user = user.providerData[0]
-      this.$router.push('/account')
     }
     else {
       state.user = null
@@ -28,6 +27,7 @@ export const mutations = {
 export const actions = {
   async signIn() {
     await firebase.auth().signInWithPopup(githubProvider)
+    this.$router.push('/account')
   },
   async signOut() {
     await firebase.auth().signOut()

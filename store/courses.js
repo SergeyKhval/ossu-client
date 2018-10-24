@@ -25,4 +25,13 @@ export const actions = {
   subscribeToCourses({ commit }) {
     this.$firebaseDb.ref('courses').on('value', snapshot => commit('setCourses', snapshot.val()))
   },
+
+  createCourse(store, data) {
+    this.$firebaseDb.ref('courses').push(data)
+  },
+
+  unsubscribeFromCourses({ commit }) {
+    this.$firebaseDb.ref('courses').off('value')
+    commit('setCourses', {})
+  },
 }
