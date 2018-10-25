@@ -22,13 +22,8 @@ export const mutations = {
 }
 
 export const actions = {
-  subscribeToCategories({ commit }) {
-    this.$firebaseDb.ref('courseCategories').on('value', snapshot => commit('setCategories', snapshot.val()))
-  },
-
-  unsubscribeFromCategories({ commit }) {
-    this.$firebaseDb.ref('courseCategories').off('value')
-    commit('setCategories', {})
+  fetchCategories({ commit }) {
+    this.$firebaseDb.ref('courseCategories').once('value', snapshot => commit('setCategories', snapshot.val()))
   },
 
   createCategory(store, data) {

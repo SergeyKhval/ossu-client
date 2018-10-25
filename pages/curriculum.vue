@@ -47,16 +47,12 @@
       ...mapGetters('courseCategories', ['categoriesList']),
     },
     mounted() {
-      this.subscribeToCourses()
-      this.subscribeToCategories()
-    },
-    beforeDestroy() {
-      this.unsubscribeFromCourses()
-      this.unsubscribeFromCategories()
+      this.fetchCourses()
+      this.fetchCategories()
     },
     methods: {
-      ...mapActions('courses', ['subscribeToCourses', 'unsubscribeFromCourses']),
-      ...mapActions('courseCategories', ['subscribeToCategories', 'unsubscribeFromCategories']),
+      ...mapActions('courses', ['fetchCourses']),
+      ...mapActions('courseCategories', ['fetchCategories']),
       getCategoryCourses(categoryName) {
         return this.coursesList.filter(course => course.category === categoryName)
       },

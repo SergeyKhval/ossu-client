@@ -68,16 +68,12 @@
       }
     },
     mounted() {
-      this.subscribeToCourses()
-      this.subscribeToCategories()
-    },
-    beforeDestroy() {
-      this.unsubscribeFromCourses()
-      this.unsubscribeFromCategories()
+      this.fetchCourses()
+      this.fetchCategories()
     },
     methods: {
-      ...mapActions('courses', ['subscribeToCourses', 'unsubscribeFromCourses']),
-      ...mapActions('courseCategories', ['subscribeToCategories', 'unsubscribeFromCategories']),
+      ...mapActions('courses', ['fetchCourses']),
+      ...mapActions('courseCategories', ['fetchCategories']),
     },
   }
 </script>
