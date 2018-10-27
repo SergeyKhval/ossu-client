@@ -3,7 +3,7 @@
     <v-flex xs3>
       <v-card>
         <v-img
-          :src="user && user.photoURL"
+          src="https://avatars.githubusercontent.com/u/16866432?v=3"
           contain
         />
       </v-card>
@@ -16,7 +16,7 @@
 
   export default {
     transition: 'page-static',
-    middleware: ['auth'],
+    // middleware: ['auth'],
     computed: {
       ...mapState('auth', ['user']),
     },

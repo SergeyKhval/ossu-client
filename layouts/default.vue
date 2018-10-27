@@ -71,18 +71,17 @@
 </template>
 
 <script>
-  import { mapActions, mapMutations, mapGetters } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
 
   export default {
     computed: {
       ...mapGetters('auth', ['isAuthorized']),
     },
     mounted() {
-      this.$firebaseApp.auth().onAuthStateChanged(this.setUser)
+      this.$firebaseApp.auth().onAuthStateChanged(this.onAuthStateChanged)
     },
     methods: {
-      ...mapMutations('auth', ['setUser']),
-      ...mapActions('auth', ['signIn', 'signOut']),
+      ...mapActions('auth', ['signIn', 'signOut', 'onAuthStateChanged']),
     },
   }
 </script>
