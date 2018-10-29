@@ -48,7 +48,7 @@ export const actions = {
     this.$firebaseDb.ref('profiles').child(userId).once('value', (data) => {
       const user = data.val()
 
-      commit('setUser', user)
+      commit('setUser', { ...user, id: userId })
     })
   },
   onAuthStateChanged({ commit, dispatch }, user) {
@@ -58,12 +58,10 @@ export const actions = {
           dispatch('createUser', user)
 
         dispatch('fetchUser', user.uid)
-        this.$router.push('/account')
       })
     }
     else {
       commit('setUser', null)
-      this.$router.push('/')
     }
   },
   createUser(store, user) {

@@ -5,8 +5,6 @@ const config = {
   authDomain: 'ossu-dev.firebaseapp.com',
   databaseURL: 'https://ossu-dev.firebaseio.com',
   projectId: 'ossu-dev',
-  storageBucket: 'ossu-dev.appspot.com',
-  messagingSenderId: '46058537543',
 }
 
 const firebaseApp = firebase.initializeApp(config)

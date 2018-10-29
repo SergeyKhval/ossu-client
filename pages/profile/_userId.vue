@@ -21,14 +21,11 @@
     >
       <v-card>
         <v-card-text>
-          <p>Link to public profile: <a :href="userProfileLink">link</a></p>
           <table>
             <thead>
               <tr>
                 <th>Title</th>
                 <th>Link to repository</th>
-                <th>Status</th>
-                <th />
               </tr>
             </thead>
             <tbody>
@@ -36,6 +33,7 @@
                 v-for="course in userCourses"
                 :key="course.id"
                 :course="course"
+                disabled
               />
             </tbody>
           </table>
@@ -46,7 +44,6 @@
 </template>
 
 <script>
-  import get from 'lodash/get'
   import { mapState, mapGetters } from 'vuex'
   import UserCourse from '~/components/user-course'
 
@@ -57,11 +54,6 @@
     computed: {
       ...mapState('user', ['user']),
       ...mapGetters('user', ['userCourses']),
-      userProfileLink() {
-        const userId = get(this.user, 'id', '')
-
-        return `/profile/${userId}`
-      },
     },
   }
 </script>
