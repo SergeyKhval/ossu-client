@@ -1,12 +1,14 @@
 <template>
   <v-app>
     <v-toolbar
+      color="primary"
       fixed
       app
     >
-      <v-toolbar-title>OSSU</v-toolbar-title>
+      <v-toolbar-title class="white--text">OSSU</v-toolbar-title>
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn
+          color="white"
           to="/"
           flat
         >
@@ -14,6 +16,7 @@
         </v-btn>
 
         <v-btn
+          color="white"
           flat
           to="/curriculum"
         >
@@ -22,6 +25,7 @@
 
         <v-btn
           v-if="isAuthorized"
+          color="white"
           flat
           to="/account"
         >
@@ -33,6 +37,7 @@
 
       <v-toolbar-items>
         <v-btn
+          color="white"
           flat
           to="/about"
         >
@@ -40,6 +45,7 @@
         </v-btn>
         <v-btn
           v-if="!isAuthorized"
+          color="white"
           flat
           @click="signIn"
         >
@@ -48,6 +54,7 @@
 
         <v-btn
           v-else
+          color="white"
           flat
           @click="signOut"
         >
@@ -62,6 +69,7 @@
       </v-container>
     </v-content>
     <v-footer
+      color="#ededed"
       fixed
       app
     >
