@@ -44,50 +44,55 @@ export const actions = {
   async signOut() {
     await firebase.auth().signOut()
   },
-  fetchUser({ commit }, userId) {
-    this.$firebaseDb.ref('profiles').child(userId).once('value', (data) => {
-      const user = data.val()
-
-      commit('setUser', { ...user, id: userId })
+  fetchFirebaseUser(store, userId) {
+    return new Promise((resolve) => {
+      this.$firebaseDb.ref('profiles').child(userId).once('value', data => {
+        if (data.exists())
+          resolve(data.val())
+        else
+          resolve(null)
+      })
     })
   },
-  onAuthStateChanged({ commit, dispatch }, user) {
-    if (user) {
-      this.$firebaseDb.ref('profiles').child(user.uid).once('value', data => {
-        if (!data.exists())
-          dispatch('createUser', user)
+  async fetchUser({ commit, dispatch }, userId) {
+    const user = await dispatch('fetchFirebaseUser', userId)
 
-        dispatch('fetchUser', user.uid)
-      })
+    commit('setUser', { ...user, id: userId })
+  },
+  async onAuthStateChanged({ commit, dispatch }, user) {
+    if (user) {
+      const userProfile = await dispatch('fetchFirebaseUser')
+
+      if (!userProfile)
+        dispatch('createUser', user)
+
+      dispatch('fetchUser', user.uid)
     }
     else {
       commit('setUser', null)
     }
   },
-  createUser(store, user) {
-    this.$firebaseDb.ref('courses')
-      .once('value', (data) => {
-        const courses = data.val()
+  async createUser({ dispatch }, user) {
+    const courses = await dispatch('courses/fetchCourses', null, { root: true })
 
-        for (const key in courses) {
-          if (Object.prototype.hasOwnProperty.call(courses, key)) {
-            const course = courses[key]
+    for (const key in courses) {
+      if (Object.prototype.hasOwnProperty.call(courses, key)) {
+        const course = courses[key]
 
-            course.repo = ''
-            course.status = 'Not started'
+        course.repo = ''
+        course.status = 'Not started'
 
-            Reflect.deleteProperty(course, 'duration')
-            Reflect.deleteProperty(course, 'effort')
-          }
-        }
+        Reflect.deleteProperty(course, 'duration')
+        Reflect.deleteProperty(course, 'effort')
+      }
+    }
 
-        const newProfile = {
-          avatar: get(user, 'providerData.0.photoURL'),
-          name: get(user, 'providerData.0.displayName'),
-          courses,
-        }
+    const newProfile = {
+      avatar: get(user, 'providerData.0.photoURL'),
+      name: get(user, 'providerData.0.displayName'),
+      courses,
+    }
 
-        this.$firebaseDb.ref('profiles').child(user.uid).set(newProfile)
-      })
+    this.$firebaseDb.ref('profiles').child(user.uid).set(newProfile)
   },
 }

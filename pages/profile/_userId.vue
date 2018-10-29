@@ -50,6 +50,7 @@
   export default {
     transition: 'page-static',
     // middleware: ['auth'],
+    layout: 'profile',
     components: { UserCourse },
     computed: {
       ...mapState('user', ['user']),

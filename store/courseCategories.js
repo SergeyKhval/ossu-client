@@ -22,8 +22,15 @@ export const mutations = {
 }
 
 export const actions = {
-  fetchCategories({ commit }) {
-    this.$firebaseDb.ref('courseCategories').once('value', snapshot => commit('setCategories', snapshot.val()))
+  fetchFirebaseCategories() {
+    return new Promise((resolve) => {
+      this.$firebaseDb.ref('courseCategories').once('value', data => resolve(data.val()))
+    })
+  },
+  async fetchCategories({ commit, dispatch }) {
+    const categories = await dispatch('fetchFirebaseCategories')
+
+    commit('setCategories', categories)
   },
 
   createCategory(store, data) {

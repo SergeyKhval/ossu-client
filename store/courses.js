@@ -22,8 +22,18 @@ export const mutations = {
 }
 
 export const actions = {
-  fetchCourses({ commit }) {
-    this.$firebaseDb.ref('courses').once('value', snapshot => commit('setCourses', snapshot.val()))
+  fetchFirebaseCourses() {
+    return new Promise((resolve) => {
+      this.$firebaseDb.ref('courses').once('value', data => resolve(data.val()))
+    })
+  },
+
+  async fetchCourses({ commit, dispatch }) {
+    const courses = await dispatch('fetchFirebaseCourses')
+
+    commit('setCourses', courses)
+
+    return courses
   },
 
   createCourse(store, data) {

@@ -8,11 +8,14 @@
       md3
     >
       <v-card>
-        <v-img
-          src="https://avatars.githubusercontent.com/u/16866432?v=3"
-          contain
-        />
+        <v-avatar
+          tile
+          size="100%"
+        >
+          <img :src="user && user.avatar">
+        </v-avatar>
       </v-card>
+      <h2 class="text-xs-center">{{ user && user.name }}</h2>
     </v-flex>
 
     <v-flex
