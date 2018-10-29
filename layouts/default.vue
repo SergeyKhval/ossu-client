@@ -51,13 +51,13 @@
           flat
           @click="signOut"
         >
-          sign out
+          logout
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
     <v-content>
-      <v-container>
+      <v-container grid-list-md>
         <nuxt />
       </v-container>
     </v-content>
@@ -75,13 +75,13 @@
 
   export default {
     computed: {
-      ...mapGetters('auth', ['isAuthorized']),
+      ...mapGetters('user', ['isAuthorized']),
     },
     mounted() {
       this.$firebaseApp.auth().onAuthStateChanged(this.onAuthStateChanged)
     },
     methods: {
-      ...mapActions('auth', ['signIn', 'signOut', 'onAuthStateChanged']),
+      ...mapActions('user', ['signIn', 'signOut', 'onAuthStateChanged']),
     },
   }
 </script>
