@@ -6,6 +6,11 @@
     >
       <div slot="header">{{ section.title }}</div>
 
+      <div v-if="section.resources">
+        <h2>Resources</h2>
+        <resources :resources="section.resources"/>
+      </div>
+
       <v-card>
         <v-card-text>
           <sections-tree :parent="section.id"/>
@@ -17,9 +22,11 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  import Resources from './resources'
 
   export default {
     name: 'SectionsTree',
+    components: { Resources },
     props: {
       parent: {
         type: String,

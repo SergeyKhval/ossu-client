@@ -49,15 +49,23 @@
         </v-card-title>
 
         <v-card-text>
-          connect resource
+          <v-select
+            :items="resourcesList"
+            v-model="currentResourceId"
+            label="resource"
+            item-value="id"
+            item-text="title"
+          />
         </v-card-text>
 
         <v-card-actions>
-          <v-btn>add</v-btn>
           <v-btn
             flat
-            @click="isAddResourceDialogVisible = false"
+            @click="_addResource"
           >
+            add
+          </v-btn>
+          <v-btn flat>
             cancel
           </v-btn>
         </v-card-actions>
@@ -81,7 +89,7 @@
 
           <td>{{ sectionById(section.parent).title }}</td>
           <td>
-            <v-btn @click="isAddResourceDialogVisible = true">+ add resource</v-btn>
+            <v-btn @click="openAddResourceDialog(section.id)">+ add resource</v-btn>
           </td>
           <td>
             <v-btn
@@ -108,14 +116,24 @@
           title: '',
           parent: null,
         },
+        currentSectionId: null,
+        currentResourceId: null,
         isAddResourceDialogVisible: false,
       }
     },
     computed: {
       ...mapGetters('sections', ['sectionsList', 'sectionById']),
+      ...mapGetters('resources', ['resourcesList']),
     },
     methods: {
-      ...mapActions('sections', ['createSection', 'removeSection']),
+      ...mapActions('sections', ['createSection', 'removeSection', 'addResource']),
+      openAddResourceDialog(sectionId) {
+        this.currentSectionId = sectionId
+        this.isAddResourceDialogVisible = true
+      },
+      _addResource() {
+        this.addResource({ sectionId: this.currentSectionId, resourceId: this.currentResourceId })
+      },
     },
 
   }

@@ -21,7 +21,7 @@ export const getters = {
   },
   sectionById(state) {
     return sectionId => {
-      if (sectionId)
+      if (sectionId !== '0')
         return state.sections[sectionId]
       else
         return {}
@@ -53,7 +53,8 @@ export const actions = {
     this.$firebaseDb.removeResource(SECTIONS_REF, sectionId)
   },
 
-  addResource(store, sectionId, resourceId) {
+  addResource(store, { sectionId, resourceId }) {
+    console.log(sectionId, resourceId)
     this.$firebaseDb.addResourceToSection(sectionId, resourceId)
   },
 }

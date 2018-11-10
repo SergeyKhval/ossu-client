@@ -19,6 +19,9 @@ export const getters = {
 
     return resourcesList
   },
+  resourceById(state) {
+    return resourceId => state.resources[resourceId]
+  },
 }
 
 export const mutations = {

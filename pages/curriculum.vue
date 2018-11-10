@@ -9,7 +9,10 @@
     transition: 'page-static',
     components: { SectionsTree },
     async fetch({ store }) {
-      await store.dispatch('sections/fetchSections')
+      await Promise.all([
+        store.dispatch('sections/fetchSections'),
+        store.dispatch('resources/fetchResources'),
+      ])
     },
   }
 </script>
