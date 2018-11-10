@@ -1,14 +1,18 @@
 <template>
-  <ul>
-    <li
+  <v-expansion-panel>
+    <v-expansion-panel-content
       v-for="section in sectionsSubtree(parent)"
       :key="section.id"
     >
-      <span>{{ section.title }}</span>
+      <div slot="header">{{ section.title }}</div>
 
-      <sections-tree :parent="section.id"/>
-    </li>
-  </ul>
+      <v-card>
+        <v-card-text>
+          <sections-tree :parent="section.id"/>
+        </v-card-text>
+      </v-card>
+    </v-expansion-panel-content>
+  </v-expansion-panel>
 </template>
 
 <script>
