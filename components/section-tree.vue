@@ -19,7 +19,7 @@
     props: {
       parent: {
         type: String,
-        default: null,
+        default: '0',
       },
     },
     computed: {

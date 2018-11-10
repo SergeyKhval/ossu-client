@@ -1,5 +1,5 @@
 <template>
-  <sections-tree :parent="0"/>
+  <sections-tree/>
 </template>
 
 <script>
