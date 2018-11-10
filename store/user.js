@@ -14,15 +14,6 @@ export const getters = {
   isAuthorized(state) {
     return state.isAuthenticated
   },
-  userCourses(state) {
-    const userCourses = get(state, 'user.courses', {})
-
-    return values(mapValues(userCourses, (value, key) => {
-      value.id = key
-
-      return value
-    }))
-  },
 }
 
 export const mutations = {
@@ -44,24 +35,14 @@ export const actions = {
   async signOut() {
     await firebase.auth().signOut()
   },
-  fetchFirebaseUser(store, userId) {
-    return new Promise((resolve) => {
-      this.$firebaseDb.ref('profiles').child(userId).once('value', data => {
-        if (data.exists())
-          resolve(data.val())
-        else
-          resolve(null)
-      })
-    })
-  },
   async fetchUser({ commit, dispatch }, userId) {
-    const user = await dispatch('fetchFirebaseUser', userId)
+    const user = await this.$firebaseDb.fetchResource('users', userId)
 
     commit('setUser', { ...user, id: userId })
   },
   async onAuthStateChanged({ commit, dispatch }, user) {
     if (user) {
-      const userProfile = await dispatch('fetchFirebaseUser')
+      const userProfile = await this.$firebaseDb.fetchResource('users', user.uid)
 
       if (!userProfile)
         dispatch('createUser', user)
@@ -73,7 +54,7 @@ export const actions = {
     }
   },
   async createUser({ dispatch }, user) {
-    const courses = await dispatch('courses/fetchCourses', null, { root: true })
+    const courses = await this.$firebaseDb.fetchResources('courses')
 
     for (const key in courses) {
       if (Object.prototype.hasOwnProperty.call(courses, key)) {
@@ -93,6 +74,6 @@ export const actions = {
       courses,
     }
 
-    this.$firebaseDb.ref('profiles').child(user.uid).set(newProfile)
+    this.$firebaseDb.setResource('profiles', user.uid, newProfile)
   },
 }

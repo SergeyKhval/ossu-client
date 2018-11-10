@@ -31,16 +31,10 @@
                 <th>Title</th>
                 <th>Link to repository</th>
                 <th>Status</th>
-                <th />
+                <th/>
               </tr>
             </thead>
-            <tbody>
-              <user-course
-                v-for="course in userCourses"
-                :key="course.id"
-                :course="course"
-              />
-            </tbody>
+            <tbody/>
           </table>
         </v-card-text>
       </v-card>
@@ -51,15 +45,12 @@
 <script>
   import get from 'lodash/get'
   import { mapState, mapGetters } from 'vuex'
-  import UserCourse from '~/components/user-course'
 
   export default {
     transition: 'page-static',
     // middleware: ['auth'],
-    components: { UserCourse },
     computed: {
       ...mapState('user', ['user']),
-      ...mapGetters('user', ['userCourses']),
       userProfileLink() {
         const userId = get(this.user, 'id', '')
 

@@ -28,14 +28,7 @@
                 <th>Link to repository</th>
               </tr>
             </thead>
-            <tbody>
-              <user-course
-                v-for="course in userCourses"
-                :key="course.id"
-                :course="course"
-                disabled
-              />
-            </tbody>
+            <tbody/>
           </table>
         </v-card-text>
       </v-card>
@@ -45,16 +38,13 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex'
-  import UserCourse from '~/components/user-course'
 
   export default {
     transition: 'page-static',
     // middleware: ['auth'],
     layout: 'profile',
-    components: { UserCourse },
     computed: {
       ...mapState('user', ['user']),
-      ...mapGetters('user', ['userCourses']),
     },
   }
 </script>
