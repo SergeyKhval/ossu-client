@@ -45,7 +45,14 @@ export const actions = {
     commit('setSections', sections)
   },
 
+  subscribeToSections({ commit }) {
+    this.$firebaseDb.subscribeToResources('value', 'sections', commit.bind(this, 'setSections'))
+  },
+
   createSection(store, data) {
+    if (!data.parent)
+      data.parent = '0'
+
     this.$firebaseDb.createResource(SECTIONS_REF, data)
   },
 

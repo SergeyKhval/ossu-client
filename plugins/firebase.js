@@ -21,6 +21,14 @@ class FirebaseDB {
     })
   }
 
+  subscribeToResources(event, resourceRef, callback) {
+    this.firebaseDb.ref(resourceRef).on(event, data => callback(data.val()))
+  }
+
+  unsubscribeFromResources(event, resourceRef) {
+    this.firebaseDb.ref(resourceRef).off(event)
+  }
+
   fetchResource(resourceRef, id) {
     return new Promise((resolve) => {
       this.firebaseDb.ref(resourceRef).child(id).once('value', data => {
@@ -41,7 +49,7 @@ class FirebaseDB {
   }
 
   removeResource(resourceRef, resourceId) {
-    this.firebaseDb.ref(resourceRef).child(resourceId).remove()
+    return this.firebaseDb.ref(resourceRef).child(resourceId).remove()
   }
 
   addResourceToSection(sectionId, resourceId) {

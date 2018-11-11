@@ -33,10 +33,8 @@
 <script>
   export default {
     async fetch({ store }) {
-      await Promise.all([
-        store.dispatch('sections/fetchSections'),
-        store.dispatch('resources/fetchResources'),
-      ])
+      store.dispatch('sections/subscribeToSections')
+      store.dispatch('resources/subscribeToResources')
     },
     data() {
       return {
@@ -45,6 +43,10 @@
           { title: 'resources', link: '/admin/resources' },
         ],
       }
+    },
+    beforeDestroy() {
+      this.$firebaseDb.unsubscribeFromResources('value', 'resources')
+      this.$firebaseDb.unsubscribeFromResources('value', 'sections')
     },
   }
 </script>

@@ -1,3 +1,5 @@
+import omit from 'lodash/omit'
+
 const RESOURCES_REF = 'resources'
 
 export const state = () => ({
@@ -28,6 +30,9 @@ export const mutations = {
   setResources(state, resources) {
     state.resources = resources
   },
+  removeResource(state, resourceId) {
+    state.resources = omit(state.resources, resourceId)
+  },
 }
 
 export const actions = {
@@ -37,11 +42,21 @@ export const actions = {
     commit('setResources', resources)
   },
 
+  subscribeToResources({ commit }) {
+    this.$firebaseDb.subscribeToResources('value','resources', commit.bind(this, 'setResources'))
+  },
+
   createResource(store, data) {
     this.$firebaseDb.createResource(RESOURCES_REF, data)
   },
 
-  removeResource(store, sectionId) {
-    this.$firebaseDb.removeResource(RESOURCES_REF, sectionId)
+  async removeResource({ commit }, resourceId) {
+    try {
+      await this.$firebaseDb.removeResource(RESOURCES_REF, resourceId)
+
+      commit('removeResource', resourceId)
+    } catch (e) {
+
+    }
   },
 }

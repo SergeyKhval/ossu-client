@@ -70,13 +70,14 @@
           <td>{{ resource.url }}</td>
           <td>{{ resource.notes }}</td>
           <td>
-            <v-btn
-              flat
-              color="error"
-              @click="removeResource(resource.id)"
-            >
-              remove resource
-            </v-btn>
+            <!-- todo: also must remove references -->
+            <!--<v-btn-->
+            <!--flat-->
+            <!--color="error"-->
+            <!--@click="removeResource(resource.id)"-->
+            <!--&gt;-->
+            <!--remove resource-->
+            <!--</v-btn>-->
           </td>
         </tr>
       </tbody>

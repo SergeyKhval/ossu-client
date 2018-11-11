@@ -9,10 +9,12 @@
     transition: 'page-static',
     components: { SectionsTree },
     async fetch({ store }) {
-      await Promise.all([
-        store.dispatch('sections/fetchSections'),
-        store.dispatch('resources/fetchResources'),
-      ])
+      store.dispatch('sections/subscribeToSections')
+      store.dispatch('resources/subscribeToResources')
+    },
+    beforeDestroy() {
+      this.$firebaseDb.unsubscribeFromResources('value', 'sections')
+      this.$firebaseDb.unsubscribeFromResources('value', 'resources')
     },
   }
 </script>
